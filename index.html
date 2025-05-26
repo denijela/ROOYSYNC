@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>ROOTSYNC 原型体验 · 金钱篇</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: "Helvetica Neue", sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .old-option {
+      background-color: #ffe5e5;
+    }
+    .old-option:hover {
+      background-color: #ffcccc;
+    }
+    .new-option {
+      background-color: #e0f7e9;
+    }
+    .new-option:hover {
+      background-color: #b2ebc8;
+    }
+    .hidden {
+      display: none;
+    }
+    .note {
+      margin-top: 16px;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 id="question">
+      第 1 题：当你看到别人年纪轻轻已经年入百万，而自己还在为房租发愁时，你的第一反应是？
+    </h2>
+    <div id="old-options">
+      <button class="old-option" onclick="showNewSystem()">A：我是不是太废了？别人都成功了，我还在原地。</button>
+      <button class="old-option" onclick="showNewSystem()">B：富人都是靠关系的，我这样普通人根本没机会。</button>
+      <button class="old-option" onclick="showNewSystem()">C：算了，怎么努力都没用，还是摆烂吧。</button>
+    </div>
+
+    <div id="new-system" class="hidden">
+      <p style="color: #c00; font-weight: bold;">🚨 很遗憾，你选择了旧系统的回应方式。</p>
+      <p>但恭喜你获得一次【富足人生新系统】的体验机会，
+        接下来是三个全新的回应方式，它们代表新系统运用的不同阶段，请选择你愿意开始实践的一种：</p>
+
+      <button class="new-option">✅ 阶段一：觉察旧系统<br>“我觉察到我在比较和自我攻击，这是旧系统的反应。现在，我选择暂停这些声音，不急着评判自己。”</button>
+      <div class="note">适合刚刚开始觉察、停止攻击、看清惯性的人。</div>
+
+      <button class="new-option">✅ 阶段二：转化信念<br>“富人之所以富有，并非都靠关系，他们的底层思维值得我去学习。我愿意重新建立自己对金钱和价值的信念。”</button>
+      <div class="note">适合已经意识到旧信念限制，准备重构内在的人。</div>
+
+      <button class="new-option">✅ 阶段三：主动创造<br>“我开始采取实际行动创造价值，不为结果焦虑，而是享受‘走在路上’的过程。我就是创造财富的起点。”</button>
+      <div class="note">适合已经准备好实践、主动出击的行动者。</div>
+
+      <p style="margin-top: 20px; font-weight: bold; color: #3a3a3a;">🌈 每一次觉察和选择，都是在重塑你的人生操作系统。<br>你不是失败者，而是正在切换版本的自己。</p>
+    </div>
+  </div>
+
+  <script>
+    function showNewSystem() {
+      document.getElementById('old-options').classList.add('hidden');
+      document.getElementById('new-system').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

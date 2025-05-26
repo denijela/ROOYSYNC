@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <title>ROOTSYNC 原型体验 · 金钱篇</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROOTSYNC 互动问答</title>
   <style>
     body {
       font-family: "Helvetica Neue", sans-serif;
       background-color: #f4f4f4;
       padding: 20px;
-      line-height: 1.6;
+      margin: 0;
     }
     .container {
-      max-width: 600px;
+      max-width: 700px;
       margin: 0 auto;
       background: #fff;
       border-radius: 12px;
       padding: 20px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    h2 {
-      font-size: 20px;
-      margin-bottom: 20px;
+    h1, h2 {
+      text-align: center;
     }
-    button {
+    .category-btn, .option-btn {
       display: block;
       width: 100%;
       margin: 10px 0;
@@ -32,63 +31,131 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s;
     }
-    .old-option {
-      background-color: #ffe5e5;
-    }
-    .old-option:hover {
-      background-color: #ffcccc;
-    }
-    .new-option {
-      background-color: #e0f7e9;
-    }
-    .new-option:hover {
-      background-color: #b2ebc8;
-    }
-    .hidden {
-      display: none;
-    }
-    .note {
-      margin-top: 16px;
-      font-size: 14px;
-      color: #555;
-    }
+    .category-btn { background-color: #e0f0ff; }
+    .old-option { background-color: #ffe5e5; }
+    .new-option { background-color: #e0f7e9; }
+    .note { font-size: 14px; color: #555; margin-bottom: 10px; }
+    .hidden { display: none; }
+    .message { margin-top: 20px; font-weight: bold; color: #3a3a3a; }
+    #back { margin-top: 20px; background-color: #ccc; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2 id="question">
-      第 1 题：当你看到别人年纪轻轻已经年入百万，而自己还在为房租发愁时，你的第一反应是？
-    </h2>
-    <div id="old-options">
-      <button class="old-option" onclick="showNewSystem()">A：我是不是太废了？别人都成功了，我还在原地。</button>
-      <button class="old-option" onclick="showNewSystem()">B：富人都是靠关系的，我这样普通人根本没机会。</button>
-      <button class="old-option" onclick="showNewSystem()">C：算了，怎么努力都没用，还是摆烂吧。</button>
+    <div id="home">
+      <h1>ROOTSYNC 原型体验</h1>
+      <p>请选择你想探索的主题：</p>
+      <button class="category-btn" onclick="startCategory('money')">💰 金钱类</button>
+      <button class="category-btn" onclick="startCategory('relationship')">👥 人际类</button>
+      <button class="category-btn" onclick="startCategory('career')">💼 事业类</button>
+      <button class="category-btn" onclick="startCategory('life')">🏠 生活类</button>
+      <button class="category-btn" onclick="startCategory('love')">❤️ 情感类</button>
     </div>
 
-    <div id="new-system" class="hidden">
-      <p style="color: #c00; font-weight: bold;">🚨 很遗憾，你选择了旧系统的回应方式。</p>
-      <p>但恭喜你获得一次【富足人生新系统】的体验机会，
-        接下来是三个全新的回应方式，它们代表新系统运用的不同阶段，请选择你愿意开始实践的一种：</p>
+    <div id="quiz" class="hidden">
+      <h2 id="question-title"></h2>
+      <div id="old-options"></div>
+      <div id="new-options" class="hidden">
+        <p style="color: #c00; font-weight: bold;">🚨 很遗憾，你选择了旧系统的回应方式。</p>
+        <p>但恭喜你获得一次【富足人生新系统】的体验机会，接下来是三个全新的回应方式：</p>
+        <button class="new-option" onclick="nextQuestion()">✅ 阶段一：觉察旧系统<br>“我觉察到我在比较和自我攻击，这是旧系统的反应。现在，我选择暂停这些声音，不急着评判自己。”</button>
+        <div class="note">适合刚刚开始觉察、停止攻击、看清惯性的人。</div>
+        <button class="new-option" onclick="nextQuestion()">✅ 阶段二：转化信念<br>“富人之所以富有，并非都靠关系，他们的底层思维值得我去学习。我愿意重新建立自己对金钱和价值的信念。”</button>
+        <div class="note">适合准备重构内在的人。</div>
+        <button class="new-option" onclick="nextQuestion()">✅ 阶段三：主动创造<br>“我开始采取实际行动创造价值，不为结果焦虑，而是享受‘走在路上’的过程。我就是创造财富的起点。”</button>
+        <div class="note">适合已经准备好实践、主动出击的行动者。</div>
+        <p class="message">🌈 每一次觉察和选择，都是在重塑你的人生操作系统。<br>你不是失败者，而是正在切换版本的自己。</p>
+      </div>
+    </div>
 
-      <button class="new-option">✅ 阶段一：觉察旧系统<br>“我觉察到我在比较和自我攻击，这是旧系统的反应。现在，我选择暂停这些声音，不急着评判自己。”</button>
-      <div class="note">适合刚刚开始觉察、停止攻击、看清惯性的人。</div>
-
-      <button class="new-option">✅ 阶段二：转化信念<br>“富人之所以富有，并非都靠关系，他们的底层思维值得我去学习。我愿意重新建立自己对金钱和价值的信念。”</button>
-      <div class="note">适合已经意识到旧信念限制，准备重构内在的人。</div>
-
-      <button class="new-option">✅ 阶段三：主动创造<br>“我开始采取实际行动创造价值，不为结果焦虑，而是享受‘走在路上’的过程。我就是创造财富的起点。”</button>
-      <div class="note">适合已经准备好实践、主动出击的行动者。</div>
-
-      <p style="margin-top: 20px; font-weight: bold; color: #3a3a3a;">🌈 每一次觉察和选择，都是在重塑你的人生操作系统。<br>你不是失败者，而是正在切换版本的自己。</p>
+    <div id="end" class="hidden">
+      <h2>🎉 你已完成本题组体验</h2>
+      <p>感谢你的参与，愿你在人生中持续升级你的操作系统。</p>
+      <button id="back" onclick="goHome()">返回首页</button>
     </div>
   </div>
 
   <script>
+    const questions = {
+      money: [
+        "当你看到别人年纪轻轻已经年入百万，而自己还在为房租发愁时，你的第一反应是？",
+        "当你想买点喜欢的东西却发现预算不够时，你内心最常浮现的声音是？",
+        "当有人建议你学习投资时，你最真实的反应是？",
+        "如果你突然多了10万元，你最可能的第一反应是？",
+        "在谈论工资收入时，你最容易说出口的感受是？"
+      ],
+      relationship: [
+        "当朋友在社交网络上晒聚会而没叫你时，你会怎么想？",
+        "遇到人际冲突时，你最常采取的方式是？",
+        "当别人批评你时，你的第一反应通常是？",
+        "你是否常常为了别人感受压抑自己？",
+        "你会不会觉得“人多的地方就容易被排挤”？"
+      ],
+      career: [
+        "当同事升职而你没有时，你会怎么解读？",
+        "你对“稳定工作”最直觉的看法是？",
+        "当被领导否定时，你的第一反应是？",
+        "你是否觉得自己职场竞争力不足？",
+        "当想到要改变职业方向时，你脑中冒出的第一句话是？"
+      ],
+      life: [
+        "你是否经常觉得“生活好像没什么意义”？",
+        "当事情不如意时，你是否会自我责怪？",
+        "你是否经常把别人的需求放在自己之前？",
+        "你是否觉得休息是一种浪费？",
+        "如果给你一整天自由时间，你最可能选择什么？"
+      ],
+      love: [
+        "你是否认为爱情总会带来伤害？",
+        "当亲密关系中产生冲突时，你的第一反应是？",
+        "你是否容易因对方忽略你而感到不安？",
+        "你是否常常在关系中感到不被理解？",
+        "你是否认为自己不值得被深深地爱？"
+      ]
+    };
+
+    let currentCategory = "";
+    let currentIndex = 0;
+
+    function startCategory(cat) {
+      currentCategory = cat;
+      currentIndex = 0;
+      document.getElementById("home").classList.add("hidden");
+      document.getElementById("quiz").classList.remove("hidden");
+      showQuestion();
+    }
+
+    function showQuestion() {
+      document.getElementById("new-options").classList.add("hidden");
+      document.getElementById("old-options").innerHTML = `
+        <button class="old-option" onclick="showNewSystem()">A：我是不是太废了？别人都成功了，我还在原地。</button>
+        <button class="old-option" onclick="showNewSystem()">B：富人都是靠关系的，我这样普通人根本没机会。</button>
+        <button class="old-option" onclick="showNewSystem()">C：算了，怎么努力都没用，还是摆烂吧。</button>
+      `;
+      document.getElementById("question-title").innerText = `第 ${currentIndex + 1} 题：` + questions[currentCategory][currentIndex];
+    }
+
     function showNewSystem() {
-      document.getElementById('old-options').classList.add('hidden');
-      document.getElementById('new-system').classList.remove('hidden');
+      document.getElementById("old-options").classList.add("hidden");
+      document.getElementById("new-options").classList.remove("hidden");
+    }
+
+    function nextQuestion() {
+      currentIndex++;
+      if (currentIndex >= questions[currentCategory].length) {
+        document.getElementById("quiz").classList.add("hidden");
+        document.getElementById("end").classList.remove("hidden");
+      } else {
+        showQuestion();
+        document.getElementById("old-options").classList.remove("hidden");
+        document.getElementById("new-options").classList.add("hidden");
+      }
+    }
+
+    function goHome() {
+      document.getElementById("home").classList.remove("hidden");
+      document.getElementById("end").classList.add("hidden");
     }
   </script>
 </body>

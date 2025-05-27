@@ -2,12 +2,266 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ROOTSYNC 问答游戏</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background: #f0f4f8;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #1a73e8;
+    }
+    button {
+      margin: 5px 0;
+      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #155ab6;
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    p {
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
   <div id="app"></div>
-  <script src="script.js"></script>
+  <script>
+    const categories = [
+      "金钱类", "事业类", "人际类", "生活类", "爱情类"
+    ];
+
+    const allQuestions = {
+      "金钱类": [
+        {
+          question: "当你看到别人年纪轻轻已经年入百万，而自己还在为房租发愁时，你的第一反应是？",
+          oldSystem: [
+            "我是不是太废了？别人都成功了，我还在原地。",
+            "富人都是靠关系的，我这样普通人根本没机会。",
+            "算了，怎么努力都没用，还是摆烂吧。"
+          ],
+          newSystem: [
+            "我觉察到我在比较和自我攻击，这是旧系统的反应。现在，我选择暂停这些声音，不急着评判自己。",
+            "富人之所以富有，并非都靠关系，他们的底层思维值得我去学习。我愿意重新建立自己对金钱和价值的信念。",
+            "我开始采取实际行动创造价值，不为结果焦虑，而是享受‘走在路上’的过程。我就是创造财富的起点。"
+          ]
+        },
+        {
+          question: "当你想买点喜欢的东西却发现预算不够时，你内心最常浮现的声音是？",
+          oldSystem: [
+            "我买不起，是不是我太差了。",
+            "别人的生活真好，我永远达不到。",
+            "算了，不买了，省省钱吧。"
+          ],
+          newSystem: [
+            "我觉察到自己对金钱的不安全感，这只是暂时的情绪反应。",
+            "我愿意相信理财和规划可以逐步改善现状。",
+            "我开始记录和计划消费，积极寻找提升收入的机会。"
+          ]
+        },
+        {
+          question: "面对突如其来的大额支出时，你最常想什么？",
+          oldSystem: [
+            "完蛋了，我这次肯定扛不住了。",
+            "生活就是这样，注定不会富裕。",
+            "随便了，反正钱总是不够用。"
+          ],
+          newSystem: [
+            "我觉察到自己的恐慌，这只是旧系统的惯性反应。",
+            "我愿意相信问题可以分解，逐步解决。",
+            "我主动寻找解决方案，比如理财、借助资源或调整预算。"
+          ]
+        },
+        {
+          question: "看到别人炫耀财富时，你的内心反应是？",
+          oldSystem: [
+            "真讨厌，这样的人都是虚荣。",
+            "我永远达不到他们的高度。",
+            "这不代表什么，没必要羡慕。"
+          ],
+          newSystem: [
+            "我觉察到自己有嫉妒和自我否定的倾向。",
+            "我愿意专注于自己的进步和价值，而非别人的表现。",
+            "我主动制定目标，专注提升自己的能力和财富观念。"
+          ]
+        },
+        {
+          question: "当你遇到理财亏损时，你最先想到什么？",
+          oldSystem: [
+            "我真是个失败者，根本不懂理财。",
+            "理财太难了，我不适合做这事。",
+            "算了，不理了，反正我没钱。"
+          ],
+          newSystem: [
+            "我觉察到自己因亏损产生的自我否定。",
+            "我愿意把亏损当作学习机会，分析原因。",
+            "我调整心态和策略，继续学习理财知识，稳步前行。"
+          ]
+        }
+      ],
+      "事业类": [
+        {
+          question: "当你发现同龄人在职场上步步高升，而你还在原地打转时，你会怎么想？",
+          oldSystem: [
+            "我肯定是能力不行，混不到那个位置也是应该的。",
+            "他们一定是有背景，我怎么比得上。",
+            "干脆摆烂吧，反正努力也没有用。"
+          ],
+          newSystem: [
+            "我觉察到我在贬低自己，把别人成功当成对自己的否定。",
+            "我愿意相信每个人节奏不同，换个角度看，我也在积累我的价值。",
+            "我主动调整目标与策略，不再盲目焦虑，而是一步步落实行动。"
+          ]
+        },
+        {
+          question: "当你在工作中提出建议却被上司否定时，你第一反应是？",
+          oldSystem: [
+            "我就是不够聪明，说出来也没人听。",
+            "他就是看不起我，下次我什么都不说了。",
+            "反正我说了也没用，还是听话干活吧。"
+          ],
+          newSystem: [
+            "我觉察到我把否定等同于否认自身价值。",
+            "我愿意相信表达本身有意义，反馈可以用来完善思考。",
+            "我练习从中提炼经验，不因一次否定而退缩。"
+          ]
+        },
+        {
+          question: "当你在工作中频繁加班，却得不到认可，你会怎么想？",
+          oldSystem: [
+            "我是不是做得还不够？果然我还不值得肯定。",
+            "他们根本在压榨我，再努力也没用。",
+            "我忍着吧，毕竟现实就是这样。"
+          ],
+          newSystem: [
+            "我觉察到我在用他人认同来衡量自身价值。",
+            "我愿意从自身角度审视边界与投入，开始为自己设限。",
+            "我练习沟通和表达，同时积极寻找更健康的成长路径。"
+          ]
+        },
+        {
+          question: "当你看到同事升职而你落选时，你怎么理解这件事？",
+          oldSystem: [
+            "我果然不够优秀，根本不配升职。",
+            "领导有偏心，我再努力也没戏。",
+            "我就这样吧，不追求什么了。"
+          ],
+          newSystem: [
+            "我觉察到我把结果作为价值衡量的全部，这是旧系统的惯性。",
+            "我愿意相信时机和机会可以靠持续积累吸引。",
+            "我主动分析经验，继续积蓄能量，为下一次机会做准备。"
+          ]
+        },
+        {
+          question: "当你面试多次失败时，你最容易怎么想？",
+          oldSystem: [
+            "我可能根本不适合职场，是不是太差了。",
+            "面试官根本不懂我，这些公司也配不上我。",
+            "随便吧，哪里要我去哪。"
+          ],
+          newSystem: [
+            "我觉察到我因为挫折否定了自己的努力与潜力。",
+            "我愿意相信失败是校准方向的过程，不是终点。",
+            "我练习总结反馈、调整策略、保持热情地前行。"
+          ]
+        }
+      ],
+      // 其他题组请根据需求自行添加，示例略
+    };
+
+    const app = document.getElementById("app");
+
+    function showCategories() {
+      app.innerHTML = '<h1>ROOTSYNC 问答游戏</h1><p>请选择一个题组开始体验：</p>';
+      const list = document.createElement('ul');
+      categories.forEach(category => {
+        const item = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.textContent = category;
+        btn.onclick = () => showQuestionFlow(category);
+        item.appendChild(btn);
+        list.appendChild(item);
+      });
+      app.appendChild(list);
+    }
+
+    function showQuestionFlow(category) {
+      const questions = allQuestions[category];
+      if (!questions) {
+        app.innerHTML = `<p>该题组「${category}」内容暂未上线。</p><button onclick="showCategories()">返回</button>`;
+        return;
+      }
+      let index = 0;
+
+      function showQuestion() {
+        const q = questions[index];
+        app.innerHTML = `<h2>${category} | 第${index + 1}题</h2><p>${q.question}</p>`;
+        const ul = document.createElement('ul');
+        q.oldSystem.forEach((opt) => {
+          const li = document.createElement('li');
+          const btn = document.createElement('button');
+          btn.textContent = opt;
+          btn.onclick = () => showNewSystem();
+          li.appendChild(btn);
+          ul.appendChild(li);
+        });
+        app.appendChild(ul);
+      }
+
+      function showNewSystem() {
+        const q = questions[index];
+        app.innerHTML = '<h3>你选择了旧系统的回应方式</h3>' +
+          '<p>但恭喜你获得一次【新系统】体验机会，以下是三个阶段的回应方式，请选择一个你愿意尝试的：</p>';
+        const ul = document.createElement('ul');
+        q.newSystem.forEach((opt, i) => {
+          const li = document.createElement('li');
+          const btn = document.createElement('button');
+          btn.textContent = opt;
+          btn.onclick = () => {
+            if (index < questions.length - 1) {
+              index++;
+              showTransition();
+            } else {
+              showEnd();
+            }
+          };
+          li.appendChild(btn);
+          ul.appendChild(li);
+        });
+        app.appendChild(ul);
+      }
+
+      function showTransition() {
+        app.innerHTML = '<p>每一次觉察和选择，都是在重塑你的人生操作系统。<br>你不是失败者，而是正在切换版本的自己。</p>';
+        setTimeout(() => showQuestion(), 2000);
+      }
+
+      function showEnd() {
+        app.innerHTML = '<h2>你已完成本题组所有问题！</h2>' +
+          '<p>每一次觉察和选择，都是在重塑你的人生操作系统。你不是失败者，而是正在切换版本的自己。</p>' +
+          '<button onclick="showCategories()">返回题组选择</button>';
+      }
+
+      showQuestion();
+    }
+
+    showCategories();
+  </script>
 </body>
 </html>

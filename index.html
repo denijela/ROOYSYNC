@@ -413,14 +413,14 @@
         const q = questions[index];
         app.innerHTML = `<h2>${category} | 第${index + 1}题</h2><p>${q.question}</p>`;
         const ul = document.createElement('ul');
-        q.oldSystem.forEach((opt) => {
-          const li = document.createElement('li');
-          const btn = document.createElement('button');
-          btn.textContent = opt;
-          btn.onclick = () => showNewSystem();
-          li.appendChild(btn);
-          ul.appendChild(li);
-        });
+[...q.oldSystem, "其他"].forEach((opt, i) => {
+  const li = document.createElement('li');
+  const btn = document.createElement('button');
+  btn.textContent = opt;
+  btn.onclick = () => showNewSystem();
+  li.appendChild(btn);
+  ul.appendChild(li);
+});
         app.appendChild(ul);
       }
 
@@ -454,7 +454,7 @@
 
       function showEnd() {
         app.innerHTML = '<h2>你已完成本题组所有问题！</h2>' +
-          '<p>每一次觉察和选择，都是在重塑你的人生操作系统。你不是失败者，而是正在切换版本的自己。</p>' +
+          '<p>每一次觉察和选择，都是在重塑你的人生操作系统。你正在走向轻松富足的省力模式。</p>' +
           '<button onclick="showCategories()">返回题组选择</button>';
       }
 
